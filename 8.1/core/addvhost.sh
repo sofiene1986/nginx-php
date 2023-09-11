@@ -2,6 +2,12 @@
 set -e
 vhost=$1
 documentRoot=$2
+if [ -n "$documentRoot" ]; then
+   echo "Document root /var/www/html/$documentRoot"
+else
+ documentRoot="\/var\/www\/html"
+fi
+
 if [ -n "$vhost" ]; then
   if [ -f "/etc/nginx/sites-enabled/$vhost.conf" ]; then
     echo "$vhost is already exist"
