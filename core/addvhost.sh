@@ -1,0 +1,17 @@
+#!/bin/bash -e
+set -e
+vhost=$1
+documentRoot=$2
+if [ -n "$vhost" ]; then
+  if [ -f "/etc/nginx/sites-enabled/$vhost.conf" ]; then
+    echo "$vhost is already exist"
+  else
+    sudo cp /var/www/vhost/vhost-exemple/vhost /etc/nginx/sites-enabled/$vhost.conf
+    sudo sed -i "s/SERVERNAME/$vhost/g" /etc/nginx/sites-enabled/$vhost.conf
+    sudo  sed -i "s/DOCUMENTROOT/$documentRoot/g" /etc/nginx/sites-enabled/$vhost.conf
+    echo "$vhost created success"
+    sudo service nginx restart
+  fi
+else
+  echo "$vhost is required"
+fi
