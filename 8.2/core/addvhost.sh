@@ -4,6 +4,7 @@ vhost=$1
 documentRoot=$2
 if [ -n "$documentRoot" ]; then
    echo "Document root /var/www/html/$documentRoot"
+   documentRoot="\/var\/www\/html\/$documentRoot"
 else
  documentRoot="\/var\/www\/html"
 fi
