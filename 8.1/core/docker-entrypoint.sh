@@ -1,3 +1,4 @@
 #!/bin/bash -e
 set -e
-addvhost local.localhost.fr
+/etc/init.d/php-fpm start
+/etc/init.d/nginx

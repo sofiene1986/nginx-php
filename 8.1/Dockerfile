@@ -36,7 +36,7 @@ RUN apt-get install --fix-missing -y \
   libwebp-dev
 
 
-# Create new web user for apache and grant sudo without password
+# Create new web user and grant sudo without password
 RUN useradd web -d /var/www -g www-data -s /bin/bash
 RUN usermod -aG sudo web
 RUN echo 'web ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
@@ -158,12 +158,14 @@ COPY core/addvhost.sh /usr/local/bin/addvhost
 RUN chown web:root /usr/local/bin/addvhost && chmod +x /usr/local/bin/addvhost
 COPY core/delvhost.sh /usr/local/bin/delvhost
 RUN chown web:root /usr/local/bin/delvhost && chmod +x /usr/local/bin/delvhost
-
+RUN mkdir /etc/nginx/ssl
+COPY ssl/* /etc/nginx/ssl
 RUN apt-get install -y cron && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
 
 COPY core/install-nodejs.sh /usr/local/bin/install-nodejs
 RUN chown web:root /usr/local/bin/install-nodejs && chmod +x /usr/local/bin/install-nodejs
+#CMD ["nginx", "-g", "daemon off;"]
 #COPY core/docker-entrypoint.sh /
 #RUN chmod 777 /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh
 #ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["nginx", "-g", "daemon off;"]
+
