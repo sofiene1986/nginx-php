@@ -166,3 +166,4 @@ RUN chown web:root /usr/local/bin/install-nodejs && chmod +x /usr/local/bin/inst
 #COPY core/docker-entrypoint.sh /
 #RUN chmod 777 /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh
 #ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
