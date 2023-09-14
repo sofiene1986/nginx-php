@@ -13,7 +13,7 @@ if [ -n "$vhost" ]; then
   if [ -f "/etc/nginx/sites-enabled/$vhost.conf" ]; then
     echo "$vhost is already exist"
   else
-    sudo cp /var/www/vhost/vhost-exemple/vhost /etc/nginx/sites-enabled/$vhost.conf
+    sudo cp /etc/nginx/vhost-skeleton/skeleton /etc/nginx/sites-enabled/$vhost.conf
     sudo sed -i "s/SERVERNAME/$vhost/g" /etc/nginx/sites-enabled/$vhost.conf
     sudo  sed -i "s/DOCUMENTROOT/$documentRoot/g" /etc/nginx/sites-enabled/$vhost.conf
     echo "$vhost created success"

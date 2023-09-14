@@ -112,10 +112,6 @@ server {
 		expires max;
 	}
 
-    location ~ (/vendor/|/node_modules/|composer\.json|/readme|/README|readme\.txt|/upgrade\.txt|db/install\.xml|/fixtures/|/behat/|phpunit\.xml|\.lock|environment\.xml) {
-            deny all;
-            return 404;
-    }
     access_log /var/log/nginx/SERVERNAME.access.log;
     error_log /var/log/nginx/SERVERNAME.error.log;
 }
