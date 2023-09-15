@@ -59,7 +59,7 @@ RUN ( \
 RUN cd /tmp/ && wget https://github.com/xdebug/xdebug/archive/refs/tags/3.2.2.zip && unzip 3.2.2.zip && cd xdebug-3.2.2/ && phpize && ./configure --enable-xdebug --with-php-config=/usr/local/bin/php-config && make && make install
 RUN cd /tmp/xdebug-3.2.2 && cp modules/xdebug.so /usr/local/lib/php/extensions/
 RUN touch /usr/local/etc/php/php.ini &&\
-    echo ';zend_extension=/usr/local/lib/php/extensions/xdebug.so' >> /usr/local/etc/php/php.ini
+    echo 'zend_extension=xdebug.so' >> /usr/local/etc/php/php.ini
 RUN touch /usr/local/etc/php/conf.d/xdebug.ini &&\
   echo 'xdebug.mode=debug' >> /usr/local/etc/php/conf.d/xdebug.ini &&\
   echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/conf.d/xdebug.ini &&\
@@ -111,9 +111,14 @@ RUN touch /usr/local/etc/php/php.ini  &&\
 RUN cd /usr/src && curl -sS http://getcomposer.org/installer | php
 RUN cd /usr/src && mv composer.phar /usr/bin/composer
 
-# Installation drush
-RUN cd /usr/local/src/ && mkdir drush && cd drush && composer require drush/drush
-RUN ln -s /usr/local/src/drush/vendor/bin/drush /usr/local/bin/drush
+# Installation drushRUN cd /usr/local/src/ && mkdir drush12 && cd drush12 && composer require drush/drush:^12
+RUN ln -s /usr/local/src/drush12/vendor/bin/drush /usr/local/bin/drush12
+RUN cd /usr/local/src/ && mkdir drush11 && cd drush11 && composer require drush/drush:^11
+RUN ln -s /usr/local/src/drush11/vendor/bin/drush /usr/local/bin/drush11
+RUN cd /usr/local/src/ && mkdir drush10 && cd drush10 && composer require drush/drush:^10
+RUN ln -s /usr/local/src/drush10/vendor/bin/drush /usr/local/bin/drush10
+RUN cd /usr/local/src/ && mkdir drush9 && cd drush9 && composer require drush/drush:^9
+RUN ln -s /usr/local/src/drush9/vendor/bin/drush /usr/local/bin/drush9
 
 # Set timezone to Europe/Paris
 RUN echo "Europe/Paris" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
@@ -161,13 +166,6 @@ COPY config/nginx/php-fpm.conf /usr/local/etc/php-fpm.d/000-php-fpm.conf
 ###########################################################################
 #                              SHELL SCRIPT                               #
 ###########################################################################
-# Add xdebug function
-COPY core/php/xdebug.sh /usr/local/bin/xdebug
-RUN chown web:root /usr/local/bin/xdebug && chmod +x /usr/local/bin/xdebug
-
-# Add xhprof function
-COPY core/php/xhprof.sh /usr/local/bin/xhprof
-RUN chown web:root /usr/local/bin/xhprof && chmod +x /usr/local/bin/xhprof
 COPY core/nginx/addvhost.sh /usr/local/bin/addvhost
 RUN chown web:root /usr/local/bin/addvhost && chmod +x /usr/local/bin/addvhost
 COPY core/nginx/delvhost.sh /usr/local/bin/delvhost
@@ -176,7 +174,6 @@ RUN  rm -rf /tmp/*
 
 COPY config/container/install-nodejs.sh /usr/local/bin/install-nodejs
 RUN chown web:root /usr/local/bin/install-nodejs && chmod +x /usr/local/bin/install-nodejs
-
 
 EXPOSE 80 443 9000
 COPY config/container/docker-entrypoint.sh /docker-nginx-entrypoint.sh
