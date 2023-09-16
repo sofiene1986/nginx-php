@@ -111,7 +111,8 @@ RUN touch /usr/local/etc/php/php.ini  &&\
 RUN cd /usr/src && curl -sS http://getcomposer.org/installer | php
 RUN cd /usr/src && mv composer.phar /usr/bin/composer
 
-# Installation drushRUN cd /usr/local/src/ && mkdir drush12 && cd drush12 && composer require drush/drush:^12
+# Installation drush
+RUN cd /usr/local/src/ && mkdir drush12 && cd drush12 && composer require drush/drush:^12
 RUN ln -s /usr/local/src/drush12/vendor/bin/drush /usr/local/bin/drush12
 RUN cd /usr/local/src/ && mkdir drush11 && cd drush11 && composer require drush/drush:^11
 RUN ln -s /usr/local/src/drush11/vendor/bin/drush /usr/local/bin/drush11
