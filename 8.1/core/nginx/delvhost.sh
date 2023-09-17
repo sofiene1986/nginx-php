@@ -10,5 +10,5 @@ if [ -n "$vhost" ]; then
     echo "$vhost does'nt exist"
   fi
 else
-  echo "$vhost is required"
+  echo "vhost is required"
 fi

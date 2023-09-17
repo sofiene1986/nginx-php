@@ -7,8 +7,8 @@ if [ -n "$vhost" ]; then
     echo "$vhost is deleted"
     sudo service nginx restart
   else
-    echo "$vhost does'nt exist"
+    echo "vhost does'nt exist"
   fi
 else
-  echo "$vhost is required"
+  echo "vhost is required"
 fi
